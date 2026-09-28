@@ -140,24 +140,6 @@
         .rss-item-body {
             padding: 14px 18px;
         }
-        .rss-photo {
-            display: block;
-            width: 100%;
-            max-height: 300px;
-            object-fit: cover;
-            background: #111;
-        }
-        .rss-photo-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2px;
-        }
-        .rss-photo-grid img {
-            width: 100%;
-            height: 140px;
-            object-fit: cover;
-            display: block;
-        }
         .rss-item-title {
             font-size: 0.95em;
             line-height: 1.5;
@@ -225,28 +207,31 @@
             text-transform: uppercase;
             letter-spacing: 1px;
         }
+        .rss-open-btn {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 8px 14px;
+            background: #FF6A00;
+            color: #000;
+            border: 1px solid #FF6A00;
+            font-size: 0.8em;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.2s;
+            transform: none;
+        }
+        .rss-open-btn:hover {
+            background: #1a1a1a;
+            color: #FF6A00;
+            transform: none;
+            box-shadow: 0 0 12px rgba(255, 106, 0, 0.5);
+        }
         .rss-item-date {
             font-size: 0.75em;
             color: #666;
             margin-top: 8px;
-        }
-        .rss-item-date a {
-            display: inline;
-            padding: 0;
-            margin: 0;
-            background: none;
-            border: none;
-            color: #666;
-            text-decoration: none;
-            transform: none;
-            box-shadow: none;
-            font-size: inherit;
-        }
-        .rss-item-date a:hover {
-            background: none;
-            color: #FF6A00;
-            transform: none;
-            box-shadow: none;
+            display: block;
         }
         .rss-empty {
             color: #444;
@@ -319,9 +304,9 @@
         </div>
 
         <div class="rss-section">
-            <div class="rss-title">Последние публикации из Telegram</div>
+            <div class="rss-title">Latest from Telegram</div>
             <div class="rss-list" id="rss-list">
-                <div class="rss-empty">Загрузка…</div>
+                <div class="rss-empty">Loading…</div>
             </div>
         </div>
         
@@ -348,7 +333,7 @@
             const posts = doc.querySelectorAll('.tgme_widget_message_wrap');
 
             if (!posts.length) {
-                list.innerHTML = '<div class="rss-empty">Пока нет публикаций</div>';
+                list.innerHTML = '<div class="rss-empty">No posts yet</div>';
                 return;
             }
 
@@ -359,21 +344,7 @@
                 const dateEl = post.querySelector('.tgme_widget_message_date time');
                 const linkEl = post.querySelector('.tgme_widget_message_date');
 
-                // Фото
-                const photos = post.querySelectorAll('.tgme_widget_message_photo_wrap');
-                let photosHtml = '';
-                if (photos.length === 1) {
-                    const url = extractBgUrl(photos[0].getAttribute('style') || '');
-                    if (url) photosHtml = `<img class="rss-photo" src="${proxify(url)}" loading="lazy" alt="">`;
-                } else if (photos.length > 1) {
-                    const imgs = Array.from(photos).slice(0, 4).map(p => {
-                        const url = extractBgUrl(p.getAttribute('style') || '');
-                        return url ? `<img src="${proxify(url)}" loading="lazy" alt="">` : '';
-                    }).join('');
-                    photosHtml = `<div class="rss-photo-grid">${imgs}</div>`;
-                }
-
-                // Текст со ссылками
+                // Text with links
                 let textHtml = 'Post';
                 if (textEl) {
                     const clone = textEl.cloneNode(true);
@@ -385,7 +356,7 @@
                     if (textHtml.length > 500) textHtml = textHtml.slice(0, 500) + '…';
                 }
 
-                // Превью ссылки
+                // Link preview (YouTube/TikTok/etc.)
                 let previewHtml = '';
                 const preview = post.querySelector('.tgme_widget_message_link_preview');
                 if (preview) {
@@ -409,7 +380,7 @@
                 }
 
                 const date = dateEl
-                    ? new Date(dateEl.getAttribute('datetime')).toLocaleDateString('ru-RU', {
+                    ? new Date(dateEl.getAttribute('datetime')).toLocaleDateString('en-GB', {
                         day: '2-digit', month: 'short', year: 'numeric'
                       })
                     : '';
@@ -418,17 +389,17 @@
 
                 return `
                     <div class="rss-item">
-                        ${photosHtml}
                         <div class="rss-item-body">
                             <div class="rss-item-title">${textHtml}</div>
                             ${previewHtml}
-                            <div class="rss-item-date"><a href="${link}" target="_blank" rel="noopener">${date}</a></div>
+                            <a class="rss-open-btn" href="${link}" target="_blank" rel="noopener">View on Telegram →</a>
+                            <div class="rss-item-date">${date}</div>
                         </div>
                     </div>
                 `;
             }).join('');
         } catch (e) {
-            list.innerHTML = '<div class="rss-empty">Лента недоступна: ' + e.message + '</div>';
+            list.innerHTML = '<div class="rss-empty">Feed unavailable: ' + e.message + '</div>';
             console.error(e);
         }
     }
