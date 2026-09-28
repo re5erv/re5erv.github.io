@@ -89,7 +89,6 @@
             color: #000;
         }
 
-        /* ====== itch.io iframe ====== */
         .itch-embed {
             width: 100%;
             display: block;
@@ -108,7 +107,6 @@
             border: none;
         }
 
-        /* ====== RSS / Telegram ====== */
         .rss-section {
             margin-top: 32px;
             text-align: left;
@@ -145,7 +143,7 @@
         .rss-photo {
             display: block;
             width: 100%;
-            max-height: 260px;
+            max-height: 300px;
             object-fit: cover;
             background: #111;
         }
@@ -156,7 +154,7 @@
         }
         .rss-photo-grid img {
             width: 100%;
-            height: 120px;
+            height: 140px;
             object-fit: cover;
             display: block;
         }
@@ -264,7 +262,6 @@
             font-size: 0.85em;
         }
 
-        /* ====== Декоративные картинки (скроллятся с контентом) ====== */
         .deco {
             position: absolute;
             pointer-events: none;
@@ -332,10 +329,14 @@
     </div>
 
     <script>
-    // ===== Telegram feed (открытый канал t.me/reservdev) =====
     const CHANNEL = 'reservdev';
     const PROXY = 'https://fancy-snow-3d60.re5erdev.workers.dev/?url=';
     const FEED_URL = PROXY + encodeURIComponent('https://t.me/s/' + CHANNEL);
+
+    function proxify(url) {
+        if (!url) return '';
+        return PROXY + encodeURIComponent(url);
+    }
 
     async function loadRss() {
         const list = document.getElementById('rss-list');
@@ -358,21 +359,21 @@
                 const dateEl = post.querySelector('.tgme_widget_message_date time');
                 const linkEl = post.querySelector('.tgme_widget_message_date');
 
-                // ----- Фото -----
+                // Фото
                 const photos = post.querySelectorAll('.tgme_widget_message_photo_wrap');
                 let photosHtml = '';
                 if (photos.length === 1) {
                     const url = extractBgUrl(photos[0].getAttribute('style') || '');
                     if (url) photosHtml = `<img class="rss-photo" src="${proxify(url)}" loading="lazy" alt="">`;
                 } else if (photos.length > 1) {
-                     const imgs = Array.from(photos).slice(0, 4).map(p => {
-                         const url = extractBgUrl(p.getAttribute('style') || '');
-                         return url ? `<img src="${proxify(url)}" loading="lazy" alt="">` : '';
-                     }).join('');
-                     photosHtml = `<div class="rss-photo-grid">${imgs}</div>`;
-}
+                    const imgs = Array.from(photos).slice(0, 4).map(p => {
+                        const url = extractBgUrl(p.getAttribute('style') || '');
+                        return url ? `<img src="${proxify(url)}" loading="lazy" alt="">` : '';
+                    }).join('');
+                    photosHtml = `<div class="rss-photo-grid">${imgs}</div>`;
+                }
 
-                // ----- Текст со ссылками -----
+                // Текст со ссылками
                 let textHtml = 'Post';
                 if (textEl) {
                     const clone = textEl.cloneNode(true);
@@ -384,7 +385,7 @@
                     if (textHtml.length > 500) textHtml = textHtml.slice(0, 500) + '…';
                 }
 
-                // ----- Превью ссылки -----
+                // Превью ссылки
                 let previewHtml = '';
                 const preview = post.querySelector('.tgme_widget_message_link_preview');
                 if (preview) {
@@ -392,7 +393,7 @@
                     const pDesc = preview.querySelector('.link_preview_description');
                     const pSite = preview.querySelector('.link_preview_site_name');
                     const pImg = preview.querySelector('.link_preview_image');
-                    const pImgUrl = pImg ? extractBgUrl(pImg.getAttribute('style') || '') : '';
+                    const pImgUrl = pImg ? proxify(extractBgUrl(pImg.getAttribute('style') || '')) : '';
                     const pLink = preview.getAttribute('href') || '#';
 
                     previewHtml = `
@@ -427,7 +428,7 @@
                 `;
             }).join('');
         } catch (e) {
-            list.innerHTML = '<div class="rss-empty">Лента недоступна</div>';
+            list.innerHTML = '<div class="rss-empty">Лента недоступна: ' + e.message + '</div>';
             console.error(e);
         }
     }
