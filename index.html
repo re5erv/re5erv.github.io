@@ -22,9 +22,9 @@
             font-family: 'BustleFont', 'Courier New', monospace;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start;
             min-height: 100vh;
-            padding: 20px;
+            padding: 40px 20px;
         }
         .container {
             max-width: 650px;
@@ -69,6 +69,7 @@
             transition: all 0.2s;
             font-size: 1.05em;
             text-align: left;
+            position: relative;
         }
         a:hover {
             background: #FF6A00;
@@ -85,6 +86,84 @@
         a:hover span {
             color: #000;
         }
+
+        /* ====== itch.io iframe ====== */
+        .itch-embed {
+            width: 100%;
+            display: block;
+            border: 1px solid #333;
+            background: #1a1a1a;
+            transition: border-color 0.2s;
+            margin: 0;
+        }
+        .itch-embed:hover {
+            border-color: #FF6A00;
+        }
+        .itch-embed iframe {
+            display: block;
+            width: 100%;
+            height: 167px;
+            border: none;
+        }
+
+        /* ====== RSS / Telegram ====== */
+        .rss-section {
+            margin-top: 32px;
+            text-align: left;
+        }
+        .rss-title {
+            color: #FF6A00;
+            font-size: 0.95em;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 12px;
+            padding-left: 4px;
+        }
+        .rss-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .rss-item {
+            display: block;
+            padding: 14px 18px;
+            background: #1a1a1a;
+            border: 1px solid #333;
+            text-decoration: none;
+            color: #e0e0e0;
+            transition: all 0.2s;
+        }
+        .rss-item:hover {
+            background: #FF6A00;
+            color: #000;
+            border-color: #FF6A00;
+            transform: translateX(5px);
+            box-shadow: 0 0 15px rgba(255, 106, 0, 0.4);
+        }
+        .rss-item-title {
+            font-size: 0.95em;
+            line-height: 1.4;
+            margin-bottom: 6px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .rss-item-date {
+            font-size: 0.75em;
+            color: #666;
+        }
+        .rss-item:hover .rss-item-date {
+            color: #000;
+        }
+        .rss-empty {
+            color: #444;
+            font-size: 0.85em;
+            padding: 14px 18px;
+            border: 1px dashed #333;
+            text-align: center;
+        }
+
         .footer {
             margin-top: 45px;
             color: #444;
@@ -98,36 +177,94 @@
         <h1>RESERV</h1>
         <p class="subtitle">Solo indie developer. Creating Bustle — a 2D multiplayer war economy sim.</p>
         
-        <iframe frameborder="0" src="https://itch.io/embed/5068242?bg_color=1a1a1a&amp;fg_color=FF6A00&amp;link_color=ffffff&amp;border_color=0a0a0a" width="552" height="167"><a href="https://re5erv.itch.io/bustle">Bustle by Reserv</a></iframe>
-
         <div class="links">
-            <a href="https://re5erv.itch.io" target="_blank">
-                Itch.io <span>re5erv.itch.io</span>
-            </a>
-            <a href="https://github.com/re5erv" target="_blank">
-                GitHub <span>github.com/re5erv</span>
-            </a>
-            <a href="https://t.me/reservdev" target="_blank">
-                Telegram <span>t.me/reservdev</span>
-            </a>
-            <a href="https://tiktok.com/@reservdev" target="_blank">
-                TikTok <span>@re5erv</span>
-            </a>
-            <a href="https://discord.com/invite/wAc6kWVpfy" target="_blank">
-                Discord <span>wAc6kWVpfy</span>
-            </a>
-            <a href="https://vk.ru/re5erv" target="_blank">
-                VK <span>vk.ru/re5erv</span>
-            </a>
-            <a href="https://reserv.fandom.com/ru/wiki/Reserv_Вики" target="_blank">
-                Fandom <span>reserv.fandom.com</span>
-            </a>
-            <a href="https://www.youtube.com/@reservdev" target="_blank">
-                YouTube <span>@reservdev</span>
-            </a>
+            <div class="itch-embed">
+                <iframe frameborder="0"
+                    src="https://itch.io/embed/5068242?bg_color=1a1a1a&amp;fg_color=FF6A00&amp;link_color=ffffff&amp;border_color=0a0a0a"
+                    width="100%" height="167">
+                    <a href="https://re5erv.itch.io/bustle">Bustle by Reserv</a>
+                </iframe>
+            </div>
+
+            <a href="https://re5erv.itch.io" target="_blank">Itch.io <span>re5erv.itch.io</span></a>
+            <a href="https://github.com/re5erv" target="_blank">GitHub <span>github.com/re5erv</span></a>
+            <a href="https://t.me/reservdev" target="_blank">Telegram <span>t.me/reservdev</span></a>
+            <a href="https://tiktok.com/@reservdev" target="_blank">TikTok <span>@re5erv</span></a>
+            <a href="https://discord.com/invite/wAc6kWVpfy" target="_blank">Discord <span>wAc6kWVpfy</span></a>
+            <a href="https://vk.ru/re5erv" target="_blank">VK <span>vk.ru/re5erv</span></a>
+            <a href="https://reserv.fandom.com/ru/wiki/Reserv_Вики" target="_blank">Fandom <span>reserv.fandom.com</span></a>
+            <a href="https://www.youtube.com/@reservdev" target="_blank">YouTube <span>@reservdev</span></a>
+        </div>
+
+        <div class="rss-section">
+            <div class="rss-title">Latest from Telegram</div>
+            <div class="rss-list" id="rss-list">
+                <div class="rss-empty">Loading feed…</div>
+            </div>
         </div>
         
         <p class="footer">© 2026 Reserv</p>
     </div>
+
+    <script>
+
+    const CHANNEL = 'reservdev';
+    const PROXY = 'https://api.allorigins.win/raw?url=';
+    const FEED_URL = PROXY + encodeURIComponent('https://t.me/s/' + CHANNEL);
+
+    async function loadRss() {
+        const list = document.getElementById('rss-list');
+        try {
+            const res = await fetch(FEED_URL);
+            const html = await res.text();
+
+            const doc = new DOMParser().parseFromString(html, 'text/html');
+            const posts = doc.querySelectorAll('.tgme_widget_message_wrap');
+
+            if (!posts.length) {
+                list.innerHTML = '<div class="rss-empty">No posts yet</div>';
+                return;
+            }
+
+
+            const items = Array.from(posts).slice(-5).reverse();
+
+            list.innerHTML = items.map(post => {
+                const textEl = post.querySelector('.tgme_widget_message_text');
+                const dateEl = post.querySelector('.tgme_widget_message_date time');
+                const linkEl = post.querySelector('.tgme_widget_message_date');
+
+                let text = textEl ? textEl.textContent.trim() : 'Post';
+                if (text.length > 180) text = text.slice(0, 180) + '…';
+
+                const date = dateEl
+                    ? new Date(dateEl.getAttribute('datetime')).toLocaleDateString('en-GB', {
+                        day: '2-digit', month: 'short', year: 'numeric'
+                      })
+                    : '';
+
+                const link = linkEl ? linkEl.getAttribute('href') : ('https://t.me/' + CHANNEL);
+
+                return `
+                    <a class="rss-item" href="${link}" target="_blank" rel="noopener">
+                        <div class="rss-item-title">${escapeHtml(text)}</div>
+                        <div class="rss-item-date">${date}</div>
+                    </a>
+                `;
+            }).join('');
+        } catch (e) {
+            list.innerHTML = '<div class="rss-empty">Feed unavailable</div>';
+            console.error(e);
+        }
+    }
+
+    function escapeHtml(s) {
+        return s.replace(/[&<>"']/g, c => ({
+            '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+        }[c]));
+    }
+
+    loadRss();
+    </script>
 </body>
 </html>
