@@ -404,6 +404,20 @@
         return PROXY + encodeURIComponent(url);
     }
 
+    function extractYoutubeId(url) {
+        if (!url) return '';
+        let m;
+        m = url.match(/[?&]v=([^&]+)/);
+        if (m) return m[1];
+        m = url.match(/youtu\.be\/([^?&/]+)/);
+        if (m) return m[1];
+        m = url.match(/\/shorts\/([^?&/]+)/);
+        if (m) return m[1];
+        m = url.match(/\/embed\/([^?&/]+)/);
+        if (m) return m[1];
+        return '';
+    }
+
     async function loadRss() {
         const list = document.getElementById('rss-list');
         try {
@@ -446,13 +460,21 @@
                     const pDesc = preview.querySelector('.link_preview_description');
                     const pSite = preview.querySelector('.link_preview_site_name');
                     const pImg = preview.querySelector('.link_preview_image');
-                    const pImgUrl = pImg ? proxify(extractBgUrl(pImg.getAttribute('style') || '')) : '';
                     const pLink = preview.getAttribute('href') || '#';
 
                     const siteName = pSite ? pSite.textContent.trim().toLowerCase() : '';
                     const isYt = siteName.includes('youtube') ||
                                  pLink.includes('youtube.com') ||
                                  pLink.includes('youtu.be');
+
+                    // Картинка: сначала пробуем из Telegram, потом строим из YouTube ID
+                    let pImgUrl = pImg ? proxify(extractBgUrl(pImg.getAttribute('style') || '')) : '';
+                    if (!pImgUrl && isYt) {
+                        const ytId = extractYoutubeId(pLink);
+                        if (ytId) {
+                            pImgUrl = proxify('https://i.ytimg.com/vi/' + ytId + '/hqdefault.jpg');
+                        }
+                    }
 
                     if (isYt) {
                         isYoutubePreview = true;
