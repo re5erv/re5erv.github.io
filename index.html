@@ -363,14 +363,14 @@
                 let photosHtml = '';
                 if (photos.length === 1) {
                     const url = extractBgUrl(photos[0].getAttribute('style') || '');
-                    if (url) photosHtml = `<img class="rss-photo" src="${url}" loading="lazy" alt="">`;
+                    if (url) photosHtml = `<img class="rss-photo" src="${proxify(url)}" loading="lazy" alt="">`;
                 } else if (photos.length > 1) {
-                    const imgs = Array.from(photos).slice(0, 4).map(p => {
-                        const url = extractBgUrl(p.getAttribute('style') || '');
-                        return url ? `<img src="${url}" loading="lazy" alt="">` : '';
-                    }).join('');
-                    photosHtml = `<div class="rss-photo-grid">${imgs}</div>`;
-                }
+                     const imgs = Array.from(photos).slice(0, 4).map(p => {
+                         const url = extractBgUrl(p.getAttribute('style') || '');
+                         return url ? `<img src="${proxify(url)}" loading="lazy" alt="">` : '';
+                     }).join('');
+                     photosHtml = `<div class="rss-photo-grid">${imgs}</div>`;
+}
 
                 // ----- Текст со ссылками -----
                 let textHtml = 'Post';
