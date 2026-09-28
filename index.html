@@ -282,29 +282,43 @@
             opacity: 0.9;
             transition: opacity 0.3s;
         }
-    .deco-left {
-        left: 0;
-        top: 55%;
-        max-width: 700px;
-        max-height: 90vh;
-        width: auto;
-        height: auto;
-    }
-    .deco-down {
-        right: 0;
-        bottom: 0;
-        max-width: 700px;
-        max-height: 80vh;
-        width: auto;
-        height: auto;
-    }
-        @media (max-width: 1200px) {
-            .deco { display: none; }
+
+        /* Обёртка блока ссылок — относительно неё позиционируем Left.png */
+        .links-wrapper {
+            position: relative;
+        }
+
+        /* Left.png — привязан к блоку ссылок, слева по центру */
+        .deco-left {
+            position: absolute;
+            left: -420px;                 /* насколько левее блока ссылок */
+            top: 50%;
+            transform: translateY(-50%);  /* вертикально по центру блока */
+            max-width: 700px;
+            max-height: 80vh;
+            width: auto;
+            height: auto;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.9;
+        }
+
+        /* Down.png — внизу справа документа */
+        .deco-down {
+            right: 0;
+            bottom: 0;
+            max-width: 700px;
+            max-height: 80vh;
+            width: auto;
+            height: auto;
+        }
+
+        @media (max-width: 1400px) {
+            .deco-left, .deco-down { display: none; }
         }
     </style>
 </head>
 <body>
-    <img src="Left.png" class="deco deco-left" alt="">
     <img src="Down.png" class="deco deco-down" alt="">
 
     <div class="container">
@@ -312,23 +326,26 @@
         <h1>RESERV</h1>
         <p class="subtitle">Solo indie developer. Creating Bustle — a 2D multiplayer war economy sim.</p>
         
-        <div class="links">
-            <div class="itch-embed">
-                <iframe frameborder="0"
-                    src="https://itch.io/embed/5068242?bg_color=1a1a1a&amp;fg_color=FF6A00&amp;link_color=ffffff&amp;border_color=0a0a0a"
-                    width="100%" height="167">
-                    <a href="https://re5erv.itch.io/bustle">Bustle by Reserv</a>
-                </iframe>
-            </div>
+        <div class="links-wrapper">
+            <img src="Left.png" class="deco-left" alt="">
+            <div class="links">
+                <div class="itch-embed">
+                    <iframe frameborder="0"
+                        src="https://itch.io/embed/5068242?bg_color=1a1a1a&amp;fg_color=FF6A00&amp;link_color=ffffff&amp;border_color=0a0a0a"
+                        width="100%" height="167">
+                        <a href="https://re5erv.itch.io/bustle">Bustle by Reserv</a>
+                    </iframe>
+                </div>
 
-            <a href="https://re5erv.itch.io" target="_blank">Itch.io <span>re5erv.itch.io</span></a>
-            <a href="https://github.com/re5erv" target="_blank">GitHub <span>github.com/re5erv</span></a>
-            <a href="https://t.me/reservdev" target="_blank">Telegram <span>t.me/reservdev</span></a>
-            <a href="https://tiktok.com/@reservdev" target="_blank">TikTok <span>@re5erv</span></a>
-            <a href="https://discord.com/invite/wAc6kWVpfy" target="_blank">Discord <span>wAc6kWVpfy</span></a>
-            <a href="https://vk.ru/re5erv" target="_blank">VK <span>vk.ru/re5erv</span></a>
-            <a href="https://reserv.fandom.com/ru/wiki/Reserv_Вики" target="_blank">Fandom <span>reserv.fandom.com</span></a>
-            <a href="https://www.youtube.com/@reservdev" target="_blank">YouTube <span>@reservdev</span></a>
+                <a href="https://re5erv.itch.io" target="_blank">Itch.io <span>re5erv.itch.io</span></a>
+                <a href="https://github.com/re5erv" target="_blank">GitHub <span>github.com/re5erv</span></a>
+                <a href="https://t.me/reservdev" target="_blank">Telegram <span>t.me/reservdev</span></a>
+                <a href="https://tiktok.com/@reservdev" target="_blank">TikTok <span>@re5erv</span></a>
+                <a href="https://discord.com/invite/wAc6kWVpfy" target="_blank">Discord <span>wAc6kWVpfy</span></a>
+                <a href="https://vk.ru/re5erv" target="_blank">VK <span>vk.ru/re5erv</span></a>
+                <a href="https://reserv.fandom.com/ru/wiki/Reserv_Вики" target="_blank">Fandom <span>reserv.fandom.com</span></a>
+                <a href="https://www.youtube.com/@reservdev" target="_blank">YouTube <span>@reservdev</span></a>
+            </div>
         </div>
 
         <div class="rss-section">
